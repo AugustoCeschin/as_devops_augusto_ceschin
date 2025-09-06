@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+import random
 
 app = FastAPI()
 
@@ -10,4 +11,4 @@ def read_root():
 # http://127.0.0.1:8000/primeiro-endpoint
 @app.get("/primeiro-endpoint")
 def read_root():
-    return {"mensagem": "Primeiro Endpoint"}
+    return {"teste": True, "num_aleatorio": random.randint(0, 1000)}
