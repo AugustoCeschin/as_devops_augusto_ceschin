@@ -50,4 +50,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: user/backend-api:latest
+          tags: gc91/backend-api:latest
