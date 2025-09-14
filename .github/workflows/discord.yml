@@ -1,15 +1,50 @@
 name: Discord
 on:
-  - push
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
   discord:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkou@v4
-    - name: Discord Commits
-      uses: Sniddl/discord-commits@v1.6
-      with:
-        webhook: ${{ secrets.DISCORD_WEBHOOK }}
-        template: "avatar-with-link"
-        include-extras: true
+      - uses: actions/checkout@v4
+
+      - name: Enviar commits para o Discord
+        uses: Sniddl/discord-commits@v1.6
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          include-extras: true
+          last-commit-only: false
+          embed: |
+            {
+              "title": "📢 Atualização no repositório!",
+              "description": "Repositório: **${{ github.repository }}**\nBranch: **${{ github.ref_name }}**\n\nForam incluídos os seguintes commits:",
+              "color": 5814783,
+              "fields": [
+                {
+                  "name": "Mensagem",
+                  "value": "{{ commit.message }}"
+                },
+                {
+                  "name": "Autor",
+                  "value": "{{ commit.author.name }} ({{ commit.author.username }})",
+                  "inline": true
+                },
+                {
+                  "name": "Link para o commit",
+                  "value": "[Ver no GitHub]({{ commit.url }})",
+                  "inline": true
+                }
+              ],
+              "footer": {
+                "text": "Hora: {{ commit.timestamp }}"
+              },
+              "author": {
+                "name": "CI/CD Bot",
+                "icon_url": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+              }
+            }
