@@ -1,4 +1,6 @@
 name: Discord
+permissions:
+  contents: read
 on:
   push:
     branches:
