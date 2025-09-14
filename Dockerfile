@@ -9,6 +9,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copia o restante do código
 COPY . .
 
+# Expõe porta
 EXPOSE 80
 
 # Comando de execução
